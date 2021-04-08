@@ -1,0 +1,163 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin account {% endblock %}
+{% block content %}
+<div class="container ">
+<h5 class="pt-3">Manager account</h5>
+
+
+<div class="col-md-12">
+    <!-- general form elements disabled -->
+    <div class="card card-info">
+    </div>
+    <!-- /.card -->
+    <!-- general form elements disabled -->
+  
+    <!-- /.card -->
+  </div>
+
+  <div class="card">
+      <div class="row my-2 mx-2">
+        <a href="{{ path('adminAccount', { 'type':'teacher' }) }}" class="btn btn-light mx-2">Teacher</a>
+        <a  href="{{ path('adminAccount', { 'type':'student' }) }}"  class="btn btn-light mx-2">Student</a>
+      </div>
+   <div>
+    <div class="mx-2">
+        <h5>{{ type == 'student'  ? 'Student' : 'Teacher'}}</h5>
+    </div>
+
+    <div class="card-body">
+        <form action="{{ path('searchAccount') }}" method="POST" id="form-search">
+          <div class="row">
+            <div class="col-sm-6">
+                <label for="nameSearch" class="form-label">Name </label>
+                <input type="text" class="form-control" name="nameSearch" id="nameSearch">
+            </div>
+            <div class="col-sm-6">
+                <label for="userNameSearch" class="form-label">Username</label>
+                <input type="text" class="form-control" name="userNameSearch" id="userNameSearch">
+                <input type="text" class="form-control" hidden  value={{type}} name="typeSearch" id="typeSearch">
+            </div>
+            <div class="col-sm-6 mt-2">
+                <label class="form-label"> Status </label>
+                <select name="statusSearch" id="">
+                    <option value="1">Active</option>
+                    <option value="0">Unactive</option>
+                </select>
+            </div>
+            
+          </div>
+          <div class="row">
+              <div class="col-md-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-info my-2" id="clickSearch">Search</button>
+              </div>
+          </div>
+        </form>
+      </div>
+      {% if type == 'student' %}
+          <button  data-bs-toggle="modal" data-bs-target="#staticBackdrop2">Merge account</button>
+      {% endif %}
+   </div>
+   
+    <div class="card-body">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Username</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Email</th>
+                <th scope="col">Function</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for user in data %}
+                    <tr>
+                        <td>{{user.name}}</td>
+                        <td>{{user.username}}</td>
+                        <td><img src="{{ asset('public/upload/avatar/' ~ user.avatar) }}" width="50px" height="50px" alt=""></td>
+                        <td>{{user.email}}</td>
+                        <td><a href="{{ path('showAccount', {'id' : user.id}) }}" class="btn btn-secondary">show</a></td>
+                    </tr>                    
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+ </div>
+</div>
+
+
+
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Choose account to merge</h5>
+            
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+            <label for="">Chose account</label>
+            <select class="select2" name="student_merge[]" id="select_choose_account" onchange="chooseOptionAccount()"  multiple="multiple" style="width: 500px">
+                {% for user in data %}
+                    <option value="{{user.id}}">{{user.name}} - {{user.username}}</option>
+                {% endfor %}
+             </select>
+
+             <p class="mt-5">Chose key account</p>
+             <div id="list-account">
+
+             </div>
+             <button id="submitMerge">Merger</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function() {
+             $('.select2').select2();
+        });
+
+        function chooseOptionAccount (){
+            var value = $('#select_choose_account').select2('data');
+            var htmls = ``;
+            console.log(value);
+            value.forEach(element => {
+             htmls += `
+             <p>
+                <input type="radio" name="key_account_choose" value="${element.id}" id="key_account_choose"> ${element.text}
+            </p>
+             `;
+            });
+
+            $('#list-account').html(htmls);
+        }
+
+        $('#submitMerge').click(function () {
+            var key_account = $('input[name="key_account_choose"]:checked').val();
+            var arr_value = $('#select_choose_account').select2('data');
+            var arr_account_merge =[];
+            arr_value.forEach(element => {
+                arr_account_merge.push(element.id);
+            });
+            var url ="{{ path('accountMergeStudent')}}"; 
+            var formData = new FormData();
+            formData.append('key_account',key_account);
+            formData.append('arr_account_merge',arr_account_merge);
+            axios.post(url,formData)
+                .then(function (response) {
+                        alert('Successful merge account')
+                        location.reload();
+                }).catch(function (error) {
+                    alert('error');
+                });
+        })
+
+    </script>
+{% endblock %}

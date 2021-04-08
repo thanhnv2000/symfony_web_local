@@ -1,0 +1,225 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container ">
+<h5 class="pt-3">Show Application</h5>
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-7">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(form.gender) }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_row(form.nation) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(form.birthDay) }}
+            </div>
+            <div class="col-md-5 mt-2">
+                {# <input type="text" id="image_old" hidden name="form[image_old]" class="form-control" value="dwhlelo"> #}
+                <img src="{{ asset('public/upload/avatar/' ~ image) }}" alt="" width="150px" height="150px">
+                {{ form_row(form.avatar) }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.fatherName) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.fatherIdcard) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.fatherPhone) }}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.motherName) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.motherIdcard) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.motherPhone) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_label(form.emailRegister)}}
+                {{ form_widget(form.emailRegister) }}
+                <div class="text-danger">{{ form_errors(form.emailRegister)}}</div>
+             
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.phoneRegister) }}
+            </div>
+        </div>
+
+
+        <input type="text" name="userId" id="userId" hidden>
+
+        <div class="row mt-5">
+            <div class="col-md-9">
+            </div>
+            <div class="col-md-1">
+                {# {{ form_row(form.save) }} #}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Accept
+                  </button>
+            </div>
+            <div class="col-md-2">
+                <button type="button" data-id="{{ id }}" id="button-remove" class="btn btn-danger">Remove</button>
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+
+
+
+
+    <!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Choose way to make account</h5>
+     
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="form-check form-check-inline text-center">
+                    <input class="form-check-input" type="radio" checked onclick="selectWayCreate(1)" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                    <label class="form-check-label" for="inlineRadio1">Tạo tài khoản</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" onclick="selectWayCreate(2)" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                    <label class="form-check-label" for="inlineRadio2">Dùng chung tài khoản</label>
+                </div>
+            </div>
+            <div id="viewMergeAccount" style="display: none;">
+                <form id="formSearch" >
+                  <div class="row mt-3">
+                    <div class="col-md-5">
+                        <label for="name">Username</label>
+                        <input type="text" name="usernameSearch" id="usernameSearch" >
+                    </div>
+                    <div class="col-md-5">
+                        <label for="name">Full name</label>
+                        <input type="text" name="nameSearch"  id="nameSearch">
+                    </div>
+                    <div class="col-md-2">
+                       <button type="button" id="buttonSearch" class="btn btn-info">Search</button>
+                    </div>
+                   </div>
+                </form>
+
+
+                    <div class="mt-5" >
+                        <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Choose</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone</th>
+                                    </tr>
+                                </thead>
+                            <tbody id="tbody_user_choose">
+                                
+                                {% for item in all_user %}
+                                    <tr>
+                                        <td><a href="#" onclick='clickSubmitGopTaiKhoan("{{item.id}}")'/>Chọn</td>
+                                        <td>{{ item.username }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.email }}</td>
+                                        <td>{{ item.phone }}</td>
+                                    </tr>
+                                {% endfor %}
+
+                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" id="clickToSubmitForm" class="btn btn-info">Approve</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+       function clickSubmitGopTaiKhoan($id){
+            if(confirm('Are you sure use with this account')){
+                $('#userId').val($id);
+                $('#form_save').trigger('click');
+            }
+       }
+
+       function  selectWayCreate(value){
+            if(value == 1){ 
+                $('#viewMergeAccount').css('display','none')
+                $('#clickToSubmitForm').css('display','block')
+            }else{
+                 $('#viewMergeAccount').css('display','block')
+                 $('#clickToSubmitForm').css('display','none')
+             }
+         }
+
+     
+       $('#buttonSearch').click(()=>{
+            let myForm = document.getElementById('formSearch');
+            var formData = new FormData(myForm);
+            var url ="{{ path('searchUserMerge') }}"; 
+            axios.post(url,formData)
+                .then(function (response) {
+                    let arr_data = response.data;
+                    var html= ``;
+                    arr_data.forEach(element => {
+                        html += 
+                        `<tr>
+                                <td><a href="#" onclick='clickSubmitGopTaiKhoan("${element.id}")'>Chọn<a></td>
+                                <td>${element.username}</td>
+                                <td>${element.name}</td>
+                                <td>${element.email}</td>
+                                <td>${element.phone}</td>
+                            </tr>`;
+                    });
+                    $("#tbody_user_choose").html(html);
+                }).catch(function (error) {
+                    alert('error');
+                });
+       })
+   
+       $('#clickToSubmitForm').click(()=>{
+                $('#form_save').trigger('click');
+       })
+
+
+    </script>
+{% endblock %}

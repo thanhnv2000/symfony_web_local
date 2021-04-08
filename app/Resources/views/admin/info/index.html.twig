@@ -1,0 +1,52 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Info application {% endblock %}
+{% block content %}
+<div class="container ">
+    <div class="row">
+
+        <div class="col-md-3" >
+            <img class="ml-2" src="https://miro.medium.com/max/10000/0*wZAcNrIWFFjuJA78" width="220px" height="200px" alt="">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Info</li>
+                <li class="list-group-item">Change password</li>
+            </ul>
+        </div>
+
+        <div class="col-md-5">
+
+                <div class="my-5 mx-2" id="id_changepass">
+                        <form action="{{ path('infoSubmitChangePassword') }}" method="POST">
+                            <div class="row">
+                                <label for="">Old password </label>
+                                <input type="text" name="old_pwd" class="form-control">
+                            </div>
+                            <div class="row">
+                                <label for="">New password </label>
+                                <input type="text" name="new_pwd" class="form-control">
+                            </div>
+                            <div class="row">
+                                <label for="">Password again </label>
+                                <input type="text" name="pwd_confirm" class="form-control">
+                            </div>
+                            <button class="btn btn-sm btn-primary mt-3">Change</button>
+                            <a href="" class="btn btn-sm btn-light mt-3">Back</a>
+                        </form>
+                        {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger mt-1" role="alert">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+              
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+    
+    </script>
+{% endblock %}

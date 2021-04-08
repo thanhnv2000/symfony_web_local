@@ -1,0 +1,94 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container ">
+<h5 class="pt-3">Manager Teacher</h5>
+
+
+<div class="col-md-12">
+    <!-- general form elements disabled -->
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title">Search</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <form action="{{ path('searchTeacher') }}" method="GET" id="form-search">
+          <div class="row">
+            <div class="col-sm-6">
+                <label for="codeTeacher" class="form-label">Code-teacher</label>
+                <input type="text" class="form-control" name="codeTeacher" id="codeTeacher">
+            </div>
+            <div class="col-sm-6">
+                <label for="nameSearch" class="form-label">Name teacher</label>
+                <input type="text" class="form-control" name="nameSearch" id="nameSearch">
+            </div>
+          </div>
+          
+
+          <div class="row">
+              <div class="col-md-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-info my-2" id="clickSearch">Search</button>
+              </div>
+          </div>
+        </form>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    <!-- general form elements disabled -->
+  
+    <!-- /.card -->
+  </div>
+
+    <div class="my-2">
+        <a href="{{ path('addNewTeacher') }}" class="btn btn-info">Add new teacher</a>
+    </div>
+
+
+  <div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Code_teacher</th>
+                <th scope="col">Name</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Email</th>
+                <th scope="col">Class</th>
+                <!-- <th scope="col">Status</th> -->
+                <th scope="col">Function</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for teacher in teacher_all %}
+                    <tr>
+                        <td>{{teacher.codeTeacher}}</td>
+                        <td>{{teacher.name}}</td>
+                        <td><img src="{{ asset('public/upload/avatar/' ~ teacher.avatar ) }}" width="50px" height="50px" alt=""> </td>
+                        <td>{{teacher.gender}}</td>
+                        <td>{{teacher.email}}</td>
+                        <td>{{teacher.email}}</td>
+                        <td> <a href="{{ path('editTeacher', { 'id':teacher.id}) }}" class="btn btn-info">Show</a></td>
+                    </tr>
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+
+        <div class="navigation">
+          {{ knp_pagination_render(teacher_all) }}
+      </div>
+    </div>
+ </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+    
+    </script>
+{% endblock %}

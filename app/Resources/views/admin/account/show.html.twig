@@ -1,0 +1,61 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container ">
+<h5 class="pt-3">Show Application</h5>
+<div class="col-md-7">
+        <div class="card">
+          <div class="container">
+        
+            <img src="{{ asset('public/upload/avatar/' ~ info.avatar) }}" width="150px" height="150px" alt="">
+                <div class="row">
+                    <div class="col-md-5">
+                        Name : {{info.name}}
+                    </div>
+                    <div class="col-md-5">
+                        Username : {{info.username}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        Phone : {{info.phone}}
+                    </div>
+                    <div class="col-md-5">
+                        Email : {{info.email}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        Role : {{role_show}}
+                    </div>
+                </div>
+
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-5 mb-5">
+                        {{ form_row(form.status) }}
+                    </div>
+                    <div class="col-md-3 mt-4">
+                        {{ form_row(form.save) }}
+                    </div>
+                    <div class="col-md-2 mt-4">
+                      <button class="btn btn-sm btn-light ">back</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+           </div>
+        </div>
+ </div>
+    
+
+
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+
+    </script>
+{% endblock %}

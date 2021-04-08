@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="https://image.freepik.com/free-vector/logo-illustration-funny-cat-simple-mascot-style_116762-1030.jpg">
+   
+    <title>Document</title>
+</head>
+<body>
+<div class="container">
+      
+{# <img src="{{ asset('public/uploads/happy-cat-closeup-portrait-funny-smile-cardboard-young-blue-background-102078702.jpeg') }}" alt="" width="100px" height="100px"> #}
+
+    <h1>Form info apply to school</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+         <h1>Hi {{app.user.username }}</h1>
+    {% endif %}
+    {{ form_start(form) }}
+    <h5 class="font-weight-bold my-4">Info_student</h5>
+        <div class="row">
+            <div class="col-md-7">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(form.gender) }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_row(form.nation) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(form.birthDay) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(form.avatar) }}
+            </div>
+        </div>
+
+        <h5 class="font-weight-bold my-4">Parent</h5>
+
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.fatherName) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.fatherIdcard) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.fatherPhone) }}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.motherName) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.motherIdcard) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.motherPhone) }}
+            </div>
+        </div>
+
+
+        <h5 class="font-weight-bold my-4">Info to register account</h5>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_label(form.emailRegister)}}
+                {{ form_widget(form.emailRegister) }}
+                <div class="text-danger">{{ form_errors(form.emailRegister)}}</div>
+             
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.phoneRegister) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4 mt-5">
+                {{ form_row(form.save) }}
+            </div>
+        </div>
+        
+
+    {{ form_end(form) }}
+</div>
+ 
+ <button type="button" style="display: none;" id="clickShowModal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" data-keyboard="false" data-backdrop="static"   tabindex="-1" aria-labelledby="exampleModalLabel" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Veritification</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <form action="" id="formMaXacNhan">
+                    <div class="row">
+                        <div class="col-md-2 offset-1 ">
+                            <input class="form-control" maxlength='1' type="text" name="ma_xac_thuc1">
+                        </div>
+                        <div class="col-md-2 ">
+                            <input class="form-control" maxlength='1' type="text" name="ma_xac_thuc2">
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" maxlength='1' type="text" name="ma_xac_thuc3">
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" maxlength='1' type="text" name="ma_xac_thuc4">
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" maxlength='1' type="text" name="ma_xac_thuc5">
+                        </div>
+
+                        <input type="number" name="id_form_dang_ky" id="id_form_dang_ky" hidden>
+                    </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" onclick="submitMaXacNhan()" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+
+{% for message in app.flashes('id_form') %}
+   <input id="inputcheck" type="text" hidden value="{{ message }}">
+{% endfor %} 
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+$(window).on('load',function(){
+    if($('#inputcheck').val() !== undefined){
+            $('#clickShowModal').trigger( "click" );
+    }
+});
+
+function submitMaXacNhan() {
+    $('#preload').css('display', 'block');
+    let myForm = document.getElementById('formMaXacNhan');
+    var formData = new FormData()
+    var id_get = $('#inputcheck').val();
+    formData.append('ma_xac_thuc1', $('[name="ma_xac_thuc1"]').val());
+    formData.append('ma_xac_thuc2', $('[name="ma_xac_thuc2"]').val());
+    formData.append('ma_xac_thuc3', $('[name="ma_xac_thuc3"]').val());
+    formData.append('ma_xac_thuc4', $('[name="ma_xac_thuc4"]').val());
+    formData.append('ma_xac_thuc5', $('[name="ma_xac_thuc5"]').val());
+    var url ="{{ path('access_verifi', {'id': 'id'}) }}"; 
+    url = url.replace("id", id_get);
+    axios.post(url, formData)
+        .then(function (response) {
+            alert(response.data);
+            if(response.data == 'No'){
+                alert('Identification is not correct');
+            }else{
+                alert('Thank you ! We have your from and please remember your code form :' + response.data);
+                window.location.href = "{{ path('homepage') }}"; 
+
+            }
+        }).catch(function (error) {
+            alert('error');
+        });
+}
+
+
+$('[name="ma_xac_thuc1"]').keypress(function () {
+        let $this = $(this);
+        setTimeout(function () {
+            if ($this.val().length == 1) {
+                $this.blur();
+                $('[name="ma_xac_thuc2"]').focus();
+                $('[name="ma_xac_thuc2"]').select();
+            }
+        }, 200)
+    });
+    $('[name="ma_xac_thuc2"]').keypress(function () {
+        let $this = $(this);
+        setTimeout(function () {
+            if ($this.val().length == 1) {
+                $this.blur();
+                $('[name="ma_xac_thuc3"]').focus();
+                $('[name="ma_xac_thuc3"]').select();
+            }
+        }, 200)
+    });
+    $('[name="ma_xac_thuc3"]').keypress(function () {
+        let $this = $(this);
+        setTimeout(function () {
+            if ($this.val().length == 1) {
+                $this.blur();
+                $('[name="ma_xac_thuc4"]').focus();
+                $('[name="ma_xac_thuc4"]').select();
+            }
+        }, 200)
+    });
+    $('[name="ma_xac_thuc4"]').keypress(function () {
+        let $this = $(this);
+        setTimeout(function () {
+            if ($this.val().length == 1) {
+                $this.blur();
+                $('[name="ma_xac_thuc5"]').focus();
+                $('[name="ma_xac_thuc5"]').select();
+            }
+        }, 200)
+    });
+
+
+    
+</script>
+
+
+</html>

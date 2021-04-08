@@ -1,0 +1,55 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container">
+    <h5 class="pt-3">Edit age class</h5>
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-7">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_row(form.ageStudent) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-lg-1">
+                    {{ form_row(form.save) }}
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" data-id="{{ id }}" id="button-remove" class="btn btn-danger">Remove</button>
+                </div>
+                <div class="col-lg-1">
+                    <a href="{{ path('age_class') }}" class="btn btn-primary">Back</a>
+                </div>
+            </div>
+        {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('#button-remove').click(()=> {
+            if(confirm('Are you sure remove this age class with this action all class of age with be default no have age class ?')){
+                var id_rmove = $('#button-remove').attr('data-id');
+                var url ="{{ path('removeAgeClass', {'id': 'id'}) }}"; 
+                url = url.replace("id", id_rmove);
+                axios.delete(url)
+                    .then(function (response) {
+                        if(response.data = 'Removed'){
+                            alert('Removed');
+                            window.location.href = "{{path('age_class')}}"
+                        }else{
+                            alert('Have problem of your id')
+                        }
+                    }).catch(function (error) {
+                        alert('error');
+                    });
+            }
+        })
+    </script>
+{% endblock %}

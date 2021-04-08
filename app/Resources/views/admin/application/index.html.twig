@@ -1,0 +1,113 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container ">
+<h5 class="pt-3">Manager Application</h5>
+
+
+<div class="col-md-12">
+    <!-- general form elements disabled -->
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title">Search</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <form action="{{ path('searchApplicationIndex') }}" method="GET" id="form-search">
+          <div class="row">
+            <div class="col-sm-6">
+                <label for="codeFormSearch" class="form-label">Code-form</label>
+                <input type="text" class="form-control" name="codeFormSearch" id="codeFormSearch">
+            </div>
+            <div class="col-sm-6">
+                <label for="nameSearch" class="form-label">Name student</label>
+                <input type="text" class="form-control" name="nameSearch" id="nameSearch">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+                <label for="codeFormSearch" class="form-label">Email register</label>
+                <input type="email" class="form-control" name="emailRegisterSearch" id="emailRegisterSearch">
+            </div>
+            <div class="col-sm-6">
+                <label for="codeFormSearch" class="form-label">Phone register</label>
+                <input type="text" class="form-control"  name="phoneRegisterSearch" id="phoneRegisterSearch">
+            </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-info my-2" id="clickSearch">Search</button>
+              </div>
+          </div>
+        </form>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    <!-- general form elements disabled -->
+  
+    <!-- /.card -->
+  </div>
+
+
+
+  <div class="card">
+
+    
+    {% for message in app.flashes('notice') %}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+        </div>
+    {% endfor %}
+
+    <div class="card-body">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Code_form</th>
+                <th scope="col">Name</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Birth day</th>
+                <th scope="col">Email register</th>
+                <th scope="col">Phone register</th>
+                <!-- <th scope="col">Status</th> -->
+                <th scope="col">Function</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for item in all_student_apply %}
+                    <tr>
+                        <th scope="row">{{ item.codeForm}}</th>
+                        <td>{{ item.name }}</td>
+                        <td>  <img src="{{ asset('public/upload/avatar/' ~ item.avatar) }}" alt="" width="50px" height="50px"> </td>
+                        <td>{{ item.gender == 0 ? 'Female' : 'Male' }}</td>
+                        <td>{{ item.birthDay|date("d/m/Y") }}</td>
+                        <td>{{ item.emailRegister }}</td>
+                        <td>{{ item.phoneRegister }}</td>
+                        <!-- <td class="{{ item.status == 0 ? 'text-danger' : 'text-primary'}}">
+                            {{ item.status == 0 ? 'Unapprove' : 'Approve' }}
+                        </td> -->
+                        <td><a href="{{ path('showApplication', {'id': item.id }) }}" class="btn btn-sm btn-primary"> Show </a></td>
+                    </tr>
+                {% endfor %}
+            
+
+
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(all_student_apply) }}
+        </div>
+    </div>
+ </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+    
+    </script>
+{% endblock %}

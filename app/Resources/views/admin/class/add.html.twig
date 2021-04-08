@@ -1,0 +1,35 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container">
+    <h5 class="pt-3">Add new class</h5>
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-7">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_row(form.ageClassId) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-lg-1">
+                    {{ form_row(form.save) }}
+                </div>
+                <div class="col-lg-1">
+                    <a href="{{ path('age_class') }}" class="btn btn-primary">Back</a>
+                </div>
+            </div>
+        {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+
+    </script>
+{% endblock %}

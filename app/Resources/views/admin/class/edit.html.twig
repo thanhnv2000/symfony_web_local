@@ -1,0 +1,92 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin class {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">   
+    <div class="col-md-6">
+        <h5 class="pt-3">Detail class</h5>  
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-7">
+                        {{ form_row(form.name) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-7">
+                        {{ form_row(form.ageClassId) }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-lg-2">
+                        {{ form_row(form.save) }}
+                    </div>
+                    <div class="col-lg-2 mr-3">
+                        <button type="button" data-id="{{ id }}" id="button-remove" class="btn btn-danger">Remove</button>
+                    </div>
+                    <div class="col-lg-2">
+                        <a href="{{ path('age_class') }}" class="btn btn-primary">Back</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-6 mt-5">
+            <div class="card py-2">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success" role="alert">
+                        {{message}}
+                      </div>
+                {% endfor %}
+          
+
+
+                <form action="{{ path('sortTeacherInClass', {'id': id})}}" method="POST" class="px-2">
+                    <label for="">Teacher</label>
+                    <div class="input-group">
+                        <select class="form-control select2" multiple='true'  name="arr_teacher[]">
+                            {% for teacher in array_change_teacher %}
+                               <option {% if teacher.classId == id  %} selected {% endif %}
+                                value="{{ teacher.id }}">{{ teacher.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary my-2">Update</button>
+                </form>
+            </div>
+
+        </div>
+     </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+
+
+        $(document).ready(function() {
+           $('.select2').select2();
+        });
+
+
+
+        $('#button-remove').click(()=> {
+            if(confirm('Are you sure remove this class with remove class all student of this class with be not class ?')){
+                var id_rmove = $('#button-remove').attr('data-id');
+                var url ="{{ path('removeClass', {'id': 'id'}) }}"; 
+                url = url.replace("id", id_rmove);
+                axios.delete(url)
+                    .then(function (response) {
+                        if(response.data = 'Removed'){
+                            alert('Removed');
+                            window.location.href = "{{path('age_class')}}"
+                        }else{
+                            alert('Have problem of your id')
+                        }
+                    }).catch(function (error) {
+                        alert('error');
+                    });
+            }
+        })
+    </script>
+{% endblock %}

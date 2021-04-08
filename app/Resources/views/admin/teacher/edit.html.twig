@@ -1,0 +1,72 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container">
+    <h5 class="pt-3">Update teacher info</h5>
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-md-8">
+                {{form_row(form.name)}}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                {{form_row(form.birthDay)}}
+            </div>
+            <div class="col-md-6">
+                {{form_row(form.gender)}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{form_row(form.level)}}
+            </div>
+            <div class="col-md-6">
+                <img src="{{ asset('public/upload/avatar/' ~ image) }}" width="100px" height="100px" alt="">
+                
+                {{form_row(form.avatar)}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{form_row(form.phone)}}
+            </div>
+            <div class="col-md-6">
+                {{form_row(form.email)}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{form_row(form.idCard)}}
+            </div>
+            <div class="col-md-6">
+                {{form_row(form.educatePlace)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{form_row(form.address)}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                {{form_row(form.save)}}
+            </div>
+        </div>
+        {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+
+    </script>
+{% endblock %}

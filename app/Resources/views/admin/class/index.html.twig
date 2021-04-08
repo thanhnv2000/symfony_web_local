@@ -1,0 +1,240 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Class manager {% endblock %}
+{% block content %}
+<div class="container ">
+    <h5 class="pt-3">Class Manager</h5>
+
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="list-group">
+                {% for item in all_class %}
+                <a href="{{ path('class_index' , {'id_class': item.id}) }}">
+                    <li class="list-group-item">{{ item.name }} 
+                        - <span class="badge badge-info right">{{ item.total }}</span></li>
+                    {% endfor %}
+                </a>
+
+              </ul>
+        </div>
+        <div class="col-md-7">
+            {% if class_query is not empty %}
+            <h5>{{class_query.name}}</h5>
+            <button  type="button" id="clickModalAdd" data-id-class="{{ class_query.id }}"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add student in class</button>
+            {% endif %}
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Avatar</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Function    </th>
+                      </tr>
+                </thead>
+                <tbody>
+                    {% for item in student %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td><img src="{{ asset('public/upload/avatar/' ~ item.avatar) }}" width="50px" height="50px" alt=""></td>
+                            <td>{{ item.emailRegister}}</td>
+                            <td>{{ item.phoneRegister}}</td>
+                           <td> <button type="button" onclick="clickIdChuyenLop('{{ item.id }}')"  data-bs-toggle="modal" data-bs-target="#staticBackdrop2">Chuyen lop</button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+<input type="text" hidden  id="student_change_class" >
+
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Choose class</h5>
+     
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+            All class same age for student
+            <ul class="list-group">
+                {% for items in all_class_equal_age %}
+                <!-- <button type="button"  >click test</button> -->
+                      <li class="clickChangeClass list-group-item" data-id-class="{{ items.id }}" >{{items.name}}</li>
+                {% endfor %}
+              </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Choose student push in class</h5>
+     
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+      
+            <div id="viewMergeAccount">
+                <form id="formSearchPushStudentInClass" >
+                  <div class="row mt-3">
+                   
+                    <div class="col-md-5">
+                        <label for="name">Full name</label>
+                        <input type="text" name="nameSearch"  id="phoneSearch">
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="name">Email</label>
+                        <input type="text" name="emailSearch" id="emailSeacrh" >
+                    </div>
+                    <input type="text" name="year_fillterSearch" hidden
+                    {% if year_fillter != 0 %}
+                    value="{{ year_fillter }}"
+                    {% endif %}
+                     >
+
+                    <div class="col-md-2">
+                       <button type="button" id="buttonSearch" class="btn btn-info">Search</button>
+                    </div>
+                   </div>
+                </form>
+
+                    <div class="mt-5" >
+                        <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Choose</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Avatar</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">birthDay</th>
+                                        <th scope="col">Phone</th>
+                                    </tr>
+                                </thead>
+                            <tbody id="tbody_student_choose">
+                            {% for item in stu_no_class %}
+                                <tr>
+                                    <td><input type="checkbox" name="id_to_get_in_class"  value="{{ item.id }}"></td>
+                                    <td>{{item.name}}</td>
+                                    <td><img src="{{ asset('public/upload/avatar/' ~ item.avatar) }}" width="25px" height="25px" ></td>
+                                    <td>{{item.emailRegister}}</td>
+                                    <td>{{item.birthDay|date("d/m/Y")}}</td>
+                                    <td>{{item.phoneRegister}}</td>
+                                </tr>
+                            {% endfor %}
+                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" id="clickAddStudentInClass" class="btn btn-info">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+      $('#buttonSearch').click(function (){
+        let myForm = document.getElementById('formSearchPushStudentInClass');
+        var url ="{{ path('search_student_push_in_class') }}"; 
+        var formData = new FormData(myForm);
+        axios.post(url,formData)
+            .then(function (response) {
+              console.log(response.data)
+              var data = response.data;
+              let html_ren = ``;
+              data.forEach(element => {
+                var numberLong = element.birthDay.$date.$numberLong;
+                var date = new Date(Number(numberLong));
+                var show_date = date.getDate() +'/'+ Number(date.getMonth()+1) +'/'+ date.getFullYear();
+                
+                console.log(show_date)
+                html_ren += `
+                <tr>
+                                    <td><input type="checkbox" name="id_to_get_in_class"  value="${element._id.$oid}"></td>
+                                    <td>${element.name}</td>
+                                    <td><img src="{{ asset('public/upload/avatar/')}}${element.avatar} " width="25px" height="25px" ></td>
+                                    <td>${element.emailRegister}</td>
+                                    <td>${show_date}</td>
+                                    <td>${element.phoneRegister}</td>
+                </tr>
+                `;
+              });
+              $('#tbody_student_choose').html(html_ren);
+            }).catch(function (error) {
+                alert('error');
+            });
+    })
+
+
+    $('#clickAddStudentInClass').click(function (){
+        var arr_list = []
+        $("input:checkbox[name=id_to_get_in_class]:checked").each(function () {
+                arr_list.push($(this).val());
+        });
+        var id_class = $('#clickModalAdd').attr('data-id-class');
+        var url ="{{ path('add_student_in_class' , { 'id_class' : 'id' }) }}"; 
+        url = url.replace("id", id_class);
+        var formData = new FormData();
+        formData.append('arr_id',arr_list);
+        axios.post(url,formData)
+            .then(function (response) {
+                    alert('Successful add student in this class')
+                    location.reload();
+            }).catch(function (error) {
+                alert('error');
+            });
+    })
+
+
+      const clickIdChuyenLop = (id) => {
+        $('#student_change_class').val(id);
+      }
+
+      $('.clickChangeClass').click(function (){
+           var id_class_choose =  $(this).attr('data-id-class');
+           var id_student =  $('#student_change_class').val();
+
+           if(confirm('Are you sure want change student in this class')){
+
+            var formData = new FormData();
+            formData.append('id_class',id_class_choose);
+            formData.append('id_student',id_student);
+
+            var url ="{{ path('change_class_student')}}"; 
+            axios.post(url,formData)
+                .then(function (response) {
+                        alert('Successful change class for student')
+                        location.reload();
+
+                }).catch(function (error) {
+                    alert('error');
+                });
+           }
+      })
+            
+    
+    </script>
+{% endblock %}

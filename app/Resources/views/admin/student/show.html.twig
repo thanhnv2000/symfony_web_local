@@ -1,0 +1,105 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Student detail {% endblock %}
+{% block content %}
+<div class="container ">
+<h5 class="pt-3">Student detail</h5>
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-7">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(form.gender) }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_row(form.nation) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(form.birthDay) }}
+            </div>
+            <div class="col-md-5 mt-2">
+                {# <input type="text" id="image_old" hidden name="form[image_old]" class="form-control" value="dwhlelo"> #}
+                <img src="{{ asset('public/upload/avatar/' ~ image) }}" alt="" width="150px" height="150px">
+                {{ form_row(form.avatar) }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.fatherName) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.fatherIdcard) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.fatherPhone) }}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.motherName) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.motherIdcard) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.motherPhone) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_label(form.emailRegister)}}
+                {{ form_widget(form.emailRegister) }}
+                <div class="text-danger">{{ form_errors(form.emailRegister)}}</div>
+             
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.phoneRegister) }}
+            </div>
+        </div>
+
+
+        <input type="text" name="userId" id="userId" hidden>
+
+        <div class="row mt-5">
+            <div class="col-md-9">
+            </div>
+            <div class="col-md-1">
+               {{ form_row(form.save) }} 
+                 
+            </div>
+            <div class="col-md-1">
+                <a href="{{ path('studentAdmin') }}" class="btn btn-primary">
+                    Back
+                  </a> 
+            </div>
+       
+        </div>
+
+    {{ form_end(form) }}
+
+
+
+
+    <!-- Button trigger modal -->
+
+  
+
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+</script>
+{% endblock %}

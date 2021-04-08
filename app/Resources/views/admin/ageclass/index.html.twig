@@ -1,0 +1,84 @@
+{% extends 'admin/base/base.html.twig' %}
+{% block title %} Admin application {% endblock %}
+{% block content %}
+<div class="container ">
+    
+    <div class="row">
+        <div class="col-4">
+           <h5 class="pt-3">Age class <a href="{{ path('addNewAgeClass') }}" class="btn btn-primary">Add age class</a></h5>
+          <div class="list-group" id="list-tab" role="tablist">
+            {% for khoi in khoi_info %}
+              <a class="list-group-item list-group-item-action " id="list-{{khoi.id}}-list" data-bs-toggle="list" href="#list-{{khoi.id}}" role="tab" aria-controls={{khoi.id}}>
+                {{khoi.name}}
+              </a> 
+             {% endfor %}
+            </div>
+        </div>
+        <div class="col-8">
+           <h5 class="pt-3">Class <a href="{{ path('addNewClass') }}" class="btn btn-primary">Add class</a></h5>
+          <div class="tab-content" id="nav-tabContent">
+                {% for khoi in khoi_info %}
+                        <div class="tab-pane fade show" id="list-{{khoi.id}}" role="tabpanel" aria-labelledby="list-{{khoi.id}}-list">
+                        <h5>{{khoi.name}}
+                            {% if (khoi.id !='0' ) %}
+                             <a href="{{ path('editAgeClass' , { 'id' : khoi.id}) }}" class="btn btn-info">Edit</a>
+                            {% endif %}
+                            </h5>   
+                        <ul class="list-group">
+                            {% for class in khoi.class_of_khoi %}
+                                <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-10">{{ class.name}}</div>
+                                    <div class="col-md-2">
+                                        <a href="{{ path('editClass', {'id': class.id}) }}" class="btn btn-primary">Show</a>
+                                    </div>
+                                </div>
+                            </li>   
+                {% endfor %}
+                    </ul>
+                </div>
+
+            {% endfor %}
+         
+            
+          </div>
+        </div>
+      </div>
+      
+      
+    <div class="row">
+        
+<!--         
+        <div class="col-lg-5">
+             <h5 class="pt-3">Age class <a href="{{ path('addNewAgeClass') }}" class="btn btn-success">Add new</a></h5>
+
+            <div class="card">
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+                    <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
+                    <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+                  </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <h5 class="pt-3">Class <a href="{{ path('addNewAgeClass') }}" class="btn btn-success">Add new</a></h5>
+
+            <div class="card">
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+                    <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
+                    <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+                  </div>
+            </div>
+
+        </div> -->
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+    
+    </script>
+{% endblock %}
